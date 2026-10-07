@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adi Saputra | Creative Developer</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        primary: '#6366f1', // Indigo 500
+                        secondary: '#ec4899', // Pink 500
+                        dark: '#0f172a', // Slate 900
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        blob: {
+                            '15%': { transform: 'translate(15px, 15px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(16px, 16px) scale(1)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(13px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4f46e5; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ec4899; 
+        }
+
+        /* Glassmorphism Utilities */
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Text Gradient */
+        .text-gradient {
+            background: linear-gradient(to right, #818cf8, #e879f9, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Cursor Effect */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: white;
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        
+        body:hover .cursor-outline {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-dark text-slate-300 font-sans overflow-x-hidden selection:bg-pink-500 selection:text-white">
+
+    <!-- Custom Cursor Elements -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- Background Effects -->
+    <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-blob"></div>
+        <div class="absolute top-0 right-1/4 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-32 left-1/3 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-blob animation-delay-4000"></div>
+        <!-- Grid Pattern Overlay -->
+        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-serif font-bold text-white tracking-wider">SA<span class="text-pink-500">.</span></a>
+            
+            <div class="hidden md:flex space-x-8 text-sm font-medium tracking-wide">
+                <a href="#home" class="hover:text-white transition-colors relative group">
+                    Home
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-pink-500 transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#about" class="hover:text-white transition-colors relative group">
+                    About
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-pink-500 transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#skills" class="hover:text-white transition-colors relative group">
+                    Skills
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-pink-500 transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#contact" class="hover:text-white transition-colors relative group">
+                    Contact
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-pink-500 transition-all group-hover:w-full"></span>
+                </a>
+            </div>
+
+            <a href="#contact" class="hidden md:inline-block px-6 py-2 rounded-full border border-white/20 hover:bg-white hover:text-dark transition-all duration-300 text-sm font-semibold">
+                Let's Talk
+            </a>
+            
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-white text-xl" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-dark/95 backdrop-blur-xl border-t border-white/10 p-6 flex-col space-y-4 md:hidden">
+            <a href="#home" class="block text-white hover:text-pink-500">Home</a>
+            <a href="#about" class="block text-white hover:text-pink-500">About</a>
+            <a href="#skills" class="block text-white hover:text-pink-500">Skills</a>
+            <a href="#contact" class="block text-white hover:text-pink-500">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative pt-20">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            
+            <!-- Text Content -->
+            <div class="order-2 lg:order-1 space-y-6 reveal active">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-pink-400 mb-2">
+                    <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                    Available for freelance work
+                </div>
+                
+                <h1 class="text-5xl lg:text-7xl font-bold text-white leading-tight">
+                    Hi, I'm <br>
+                    <span class="text-gradient font-serif italic">Adi Saputra</span>
+                </h1>
+                
+                <p class="text-xl text-slate-400 max-w-lg leading-relaxed">
+                    A passionate <span class="text-white font-semibold">Pengembangan penuh
+                    </span> & <span class="text-white font-semibold">Perancang UI</span> yang bersemangat,menciptakan karya digital indah dan bermakna di dunia maya.
+                </p>
+                
+                <div class="flex flex-wrap gap-4 pt-4">
+                    <a href="#contact" class="px-8 py-3 rounded-full bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-semibold shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:-translate-y-1 transition-all duration-300">
+                        Hire Me
+                    </a>
+                    <a href="#about" class="px-8 py-3 rounded-full glass text-white font-semibold hover:bg-white/10 transition-all duration-300 flex items-center gap-2">
+                        View Portfolio <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                </div>
+
+                <div class="flex items-center gap-6 pt-8 text-slate-400">
+                    <a href="#" class="hover:text-white hover:scale-110 transition-all"><i class="fa-brands fa-github text-2xl"></i></a>
+                    <a href="#" class="hover:text-blue-400 hover:scale-110 transition-all"><i class="fa-brands fa-linkedin text-2xl"></i></a>
+                    <a href="#" class="hover:text-pink-400 hover:scale-110 transition-all"><i class="fa-brands fa-instagram text-2xl"></i></a>
+                    <a href="#" class="hover:text-sky-400 hover:scale-110 transition-all"><i class="fa-brands fa-twitter text-2xl"></i></a>
+                </div>
+            </div>
+
+            <!-- Image/Visual -->
+            <div class="order-1 lg:order-2 flex justify-center relative reveal active delay-200">
+                <div class="relative w-72 h-72 md:w-96 md:h-96">
+                    <!-- Decorative Rings -->
+                    <div class="absolute inset-0 border-2 border-dashed border-white/10 rounded-full animate-[spin_10s_linear_infinite]"></div>
+                    <div class="absolute inset-4 border border-white/20 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
+                    
+                    <!-- Main Image Container -->
+                    <div class="absolute inset-0 m-auto w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white/5 shadow-2xl shadow-purple-500/20 group">
+                        <img src="WhatsApp Image 2026-09-20 at 20.30.29.jpeg" 
+                             alt="Adi Saputra" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale hover:grayscale-0">
+                        
+                        <!-- Overlay Gradient -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/80 to-transparent opacity-60"></div>
+                    </div>
+
+                    <!-- Floating Badges -->
+                    <div class="absolute top-0 right-0 glass px-4 py-2 rounded-xl flex items-center gap-2 animate-bounce" style="animation-duration: 3s;">
+                        <i class="fa-solid fa-code text-pink-500"></i>
+                        <span class="text-xs font-bold text-white">Developer</span>
+                    </div>
+                    <div class="absolute bottom-10 left-0 glass px-4 py-2 rounded-xl flex items-center gap-2 animate-bounce" style="animation-duration: 4s;">
+                        <i class="fa-solid fa-pen-nib text-indigo-500"></i>
+                        <span class="text-xs font-bold text-white">Designer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Down Indicator -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 animate-pulse">
+            <span class="text-[10px] uppercase tracking-widest">Scroll</span>
+            <div class="w-[1px] h-12 bg-gradient-to-b from-white to-transparent"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 relative">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+                <!-- Section Title -->
+                <div class="md:col-span-4 reveal">
+                    <h2 class="text-4xl font-serif font-bold text-white mb-6">About <span class="text-pink-500">Me</span></h2>
+                    <div class="w-20 h-1 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full mb-6"></div>
+                    <p class="text-slate-400 leading-relaxed mb-6">
+                        Saya adalah seorang pengembang yang berfokus pada menciptakan solusi digital yang tidak hanya fungsional tetapi juga memiliki nilai estetika tinggi.
+                    </p>
+                    <p class="text-slate-400 leading-relaxed">
+                        Dengan pengalaman lebih dari 3 tahun di industri teknologi, saya telah membantu berbagai startup dan perusahaan mengubah ide mereka menjadi produk digital yang nyata.
+                    </p>
+                    
+                    <div class="mt-8 grid grid-cols-2 gap-4">
+                        <div class="glass p-4 rounded-xl text-center">
+                            <h3 class="text-3xl font-bold text-white">3+</h3>
+                            <p class="text-xs text-slate-400 uppercase tracking-wider mt-1">Years Exp.</p>
+                        </div>
+                        <div class="glass p-4 rounded-xl text-center">
+                            <h3 class="text-3xl font-bold text-white">50+</h3>
+                            <p class="text-xs text-slate-400 uppercase tracking-wider mt-1">Projects</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats/Cards -->
+                <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6 reveal delay-100">
+                    <!-- Card 1 -->
+                    <div class="glass-card p-6 rounded-2xl hover:border-pink-500/30 transition-colors group">
+                        <div class="w-12 h-12 rounded-lg bg-indigo-500/10 flex items-center justify-center mb-4 group-hover:bg-indigo-500/20 transition-colors">
+                            <i class="fa-solid fa-laptop-code text-indigo-400 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Web Development</h3>
+                        <p class="text-sm text-slate-400">Membangun website responsif dan cepat menggunakan teknologi modern seperti React, Next.js, dan Tailwind.</p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="glass-card p-6 rounded-2xl hover:border-pink-500/30 transition-colors group">
+                        <div class="w-12 h-12 rounded-lg bg-pink-500/10 flex items-center justify-center mb-4 group-hover:bg-pink-500/20 transition-colors">
+                            <i class="fa-solid fa-mobile-screen text-pink-400 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Mobile App</h3>
+                        <p class="text-sm text-slate-400">Pengembangan aplikasi mobile cross-platform yang smooth dan user-friendly dengan Flutter.</p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="glass-card p-6 rounded-2xl hover:border-pink-500/30 transition-colors group">
+                        <div class="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center mb-4 group-hover:bg-purple-500/20 transition-colors">
+                            <i class="fa-solid fa-palette text-purple-400 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">UI/UX Design</h3>
+                        <p class="text-sm text-slate-400">Merancang antarmuka yang intuitif dan menarik secara visual dengan fokus pada pengalaman pengguna.</p>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="glass-card p-6 rounded-2xl hover:border-pink-500/30 transition-colors group">
+                        <div class="w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center mb-4 group-hover:bg-cyan-500/20 transition-colors">
+                            <i class="fa-solid fa-server text-cyan-400 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Backend System</h3>
+                        <p class="text-sm text-slate-400">Arsitektur server yang skalabel dan aman menggunakan Node.js, Python, dan Cloud Services.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-24 bg-black/20">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-serif font-bold text-white mb-4">Technical <span class="text-gradient">Skills</span></h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">Tools dan teknologi yang saya gunakan sehari-hari untuk membangun produk digital.</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 reveal">
+                <!-- Skill Item -->
+                <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center gap-4 hover:-translate-y-2 transition-transform duration-300 group cursor-pointer">
+                    <i class="fa-brands fa-react text-5xl text-[#61DAFB] group-hover:drop-shadow-[0_0_15px_rgba(97,218,251,0.5)] transition-all"></i>
+                    <span class="font-medium text-white">React JS</span>
+                </div>
+                
+                <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center gap-4 hover:-translate-y-2 transition-transform duration-300 group cursor-pointer">
+                    <i class="fa-brands fa-js text-5xl text-[#F7DF1E] group-hover:drop-shadow-[0_0_15px_rgba(247,223,30,0.5)] transition-all"></i>
+                    <span class="font-medium text-white">JavaScript</span>
+                </div>
+
+                <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center gap-4 hover:-translate-y-2 transition-transform duration-300 group cursor-pointer">
+                    <i class="fa-brands fa-python text-5xl text-[#3776AB] group-hover:drop-shadow-[0_0_15px_rgba(55,118,171,0.5)] transition-all"></i>
+                    <span class="font-medium text-white">Python</span>
+                </div>
+
+                <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center gap-4 hover:-translate-y-2 transition-transform duration-300 group cursor-pointer">
+                    <i class="fa-brands fa-figma text-5xl text-[#F24E1E] group-hover:drop-shadow-[0_0_15px_rgba(242,78,30,0.5)] transition-all"></i>
+                    <span class="font-medium text-white">Figma</span>
+                </div>
+
+                <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center gap-4 hover:-translate-y-2 transition-transform duration-300 group cursor-pointer">
+                    <i class="fa-brands fa-node text-5xl text-[#339933] group-hover:drop-shadow-[0_0_15px_rgba(51,153,51,0.5)] transition-all"></i>
+                    <span class="font-medium text-white">Node JS</span>
+                </div>
+
+                <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center gap-4 hover:-translate-y-2 transition-transform duration-300 group cursor-pointer">
+                    <i class="fa-brands fa-git-alt text-5xl text-[#F05032] group-hover:drop-shadow-[0_0_15px_rgba(240,80,50,0.5)] transition-all"></i>
+                    <span class="font-medium text-white">Git</span>
+                </div>
+
+                <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center gap-4 hover:-translate-y-2 transition-transform duration-300 group cursor-pointer">
+                    <i class="fa-brands fa-docker text-5xl text-[#2496ED] group-hover:drop-shadow-[0_0_15px_rgba(36,150,237,0.5)] transition-all"></i>
+                    <span class="font-medium text-white">Docker</span>
+                </div>
+
+                <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center gap-4 hover:-translate-y-2 transition-transform duration-300 group cursor-pointer">
+                    <i class="fa-brands fa-aws text-5xl text-[#FF9900] group-hover:drop-shadow-[0_0_15px_rgba(255,153,0,0.5)] transition-all"></i>
+                    <span class="font-medium text-white">AWS</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-indigo-900/20 pointer-events-none"></div>
+        
+        <div class="max-w-4xl mx-auto px-6 relative z-10">
+            <div class="glass-card rounded-3xl p-8 md:p-12 reveal">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold text-white mb-4">Get In <span class="text-pink-500">Touch</span></h2>
+                    <p class="text-slate-400">Punya ide proyek menarik? Atau sekadar ingin menyapa? Jangan ragu untuk menghubungi saya.</p>
+                </div>
+
+                <form class="space-y-6" onsubmit="event.preventDefault(); alert('Terima kasih! Pesan Anda telah terkirim (Demo).');">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-slate-300 ml-1">Nama</label>
+                            <input type="text" placeholder="M.Adi Saputra" class="w-full bg-dark/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-pink-500 focus:ring-1 focus:ring-pink-500 transition-all placeholder-slate-600">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-slate-300 ml-1">Email</label>
+                            <input type="email" placeholder="adi@example.com" class="w-full bg-dark/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-pink-500 focus:ring-1 focus:ring-pink-500 transition-all placeholder-slate-600">
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-slate-300 ml-1">Pesan</label>
+                        <textarea rows="4" placeholder="Ceritakan tentang kalian..." class="w-full bg-dark/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-pink-500 focus:ring-1 focus:ring-pink-500 transition-all placeholder-slate-600 resize-none"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:-translate-y-1 transition-all duration-300">
+                        Kirim Pesan <i class="fa-solid fa-paper-plane ml-2"></i>
+                    </button>
+                </form>
+
+                <div class="mt-12 flex justify-center gap-8 border-t border-white/10 pt-8">
+                    <a href="mailto:M.Adi Saputra@gmail.com" class="flex flex-col items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                        <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-pink-500 hover:text-white transition-colors">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <span class="text-xs">Email</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                        <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-blue-500 hover:text-white transition-colors">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </div>
+                        <span class="text-xs">LinkedIn</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                        <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-gray-800 hover:text-white transition-colors">
+                            <i class="fa-brands fa-github"></i>
+                        </div>
+                        <span class="text-xs">GitHub</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 border-t border-white/5 text-center">
+        <p class="text-slate-500 text-sm">
+            &copy; 2026 M.Adi Saputra. Designed with <i class="fa-solid fa-heart text-pink-500 mx-1"></i> and Code.
+        </p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Custom Cursor Logic ---
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Dot follows instantly
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Outline follows with slight delay (using animate for smoothness)
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // --- Scroll Reveal Animation ---
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            const elementVisible = 150;
+
+            revealElements.forEach((reveal) => {
+                const elementTop = reveal.getBoundingClientRect().top;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        // Trigger once on load
+        revealOnScroll();
+
+        // --- Navbar Glass Effect on Scroll ---
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-dark/80', 'backdrop-blur-md', 'shadow-lg');
+            } else {
+                navbar.classList.remove('bg-dark/80', 'backdrop-blur-md', 'shadow-lg');
+            }
+        });
+
+        // --- Mobile Menu Toggle ---
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('flex');
+        }
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.add('hidden');
+                document.getElementById('mobile-menu').classList.remove('flex');
+            });
+        });
+    </script>
+</body>
+</html>
